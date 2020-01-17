@@ -22,7 +22,10 @@ module.exports = {
 
             //配置less
              const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
-                   types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
+                   types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)));
+            
+            //热部署
+            config.resolve.symlinks(true);       
     },
     configureWebpack: (config) => {
         config.resolve = { // 配置解析别名
@@ -38,8 +41,8 @@ module.exports = {
     productionSourceMap: false,
     // css相关配置
     css: {
-        // 是否使用css分离插件 ExtractTextPlugin
-        extract: true,
+        // 是否使用css分离插件（只用在生产环境中，当为开发环境时true会导致热部署样式失败）
+        //extract: true,
         // 开启 CSS source maps?
         sourceMap: false,
         // css预设器配置项
