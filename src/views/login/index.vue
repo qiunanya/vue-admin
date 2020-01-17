@@ -1,14 +1,12 @@
 <template>
   <div class="login">
-      <h2>这里是登录页</h2>
-      <el-row>
-  <el-button>默认按钮</el-button>
-  <el-button type="primary">主要按钮</el-button>
-  <el-button type="success">成功按钮</el-button>
-  <el-button type="info">信息按钮</el-button>
-  <el-button type="warning">警告按钮</el-button>
-  <el-button type="danger">危险按钮</el-button>
-</el-row>
+      <div class="login-wrap">
+        <ul class="menu-tab">
+          <li :class="{'active': item.isActive}" v-for="(item,index) in menuTab" :key="item.id" @click="toggleMenu(item,index)">
+            {{item.title}}
+          </li>
+        </ul>
+      </div>
   </div>
 </template>
 
@@ -18,11 +16,23 @@ export default {
     components:{},
     data(){
         return {
-
+            menuTab:[
+              {id:1,title:'登录', isActive:true},
+              {id:2,title:'注册', isActive:false},
+            ],
+           
         }
     },
     watch:{},
-    methods:{},
+    props:{},
+    methods:{
+      toggleMenu(item,index){
+         this.menuTab.forEach(el=>{
+           el.isActive = false;
+         })
+         item.isActive = true;
+      }
+    },
     mounted(){},
 
 }
@@ -30,8 +40,28 @@ export default {
 
 <style lang="less" scope>
   .login{
+     .active{
+       background-color: rgba(0, 0, 0, .1);//百分之十的透明度
+     }
      background:#344a5f;
      height: 100vh;
+     .login-wrap{
+       width: 330px;
+       margin: auto;
+     }
+     .menu-tab{
+         text-align: center;
+         li{
+           display: inline-block;
+           width: 88px;
+           line-height: 36px;
+           font-size: 14px;
+           color: #ffffff;
+           border-radius: 2px;
+           cursor: pointer;
+          
+         }
+       }
   }
     
 </style>
