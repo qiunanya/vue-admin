@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import loginApi from '@/utils/requestFilter'
 import { stripscript,validateEmail,validatePassWord,validateCode} from '@/utils/validate'
 export default {
     name:'login',
@@ -129,6 +130,8 @@ export default {
     methods:{
       //登录
       submitForm(formName) {
+        
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.userForm)
@@ -139,14 +142,21 @@ export default {
           }
         });
       },
+       resetForm() {
+        this.$refs['userForm'].resetFields();
+      },
       toggleMenu(item,index){
          this.menuTab.forEach(el=>{
            el.isActive = false;
          })
           item.isActive = true;
          if (index==0) {
+           this.resetForm();
+           this.userForm = {};
            this.condition = false;
          } else {
+           this.resetForm();
+           this.userForm = {};
            this.condition = true;
          }
         
