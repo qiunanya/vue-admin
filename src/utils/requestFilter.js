@@ -1,8 +1,19 @@
 import axios from 'axios'
 /**拦截器 */
-
-//创建service，赋给service
-const service = axios.create();
+let token = '1234sdhfshdifhsihf.ddhfhdohkd';
+//console.log(process.env.NODE_ENV)
+console.log(process.env.VUE_APP_TITLE)
+//创建requet，赋给service
+// 后端服务器请求地址 eg: http://www.web-jshtml.cn/productApi
+const BASEURL = process.env.NODE_ENV === 'production' ? '' : 'devApi';
+const service = axios.create({
+    baseURL: BASEURL,//devApi ==http://www.web-jshtml.cn/productApi(vue.config.js)
+    timeout: 5000,//请求超时
+    headers: {
+      'X-Custom-Header': 'foobar',
+      'auth_token':token
+    }
+});
 
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {

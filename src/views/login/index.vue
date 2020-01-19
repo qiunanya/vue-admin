@@ -28,7 +28,7 @@
                 <el-input type="text" v-model="userForm.code"></el-input>
               </el-col>
               <el-col :span="9">
-                <el-button type="success" class="block">获取验证码</el-button>
+                <el-button type="success" class="block" @click="getSms">获取验证码</el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import loginApi from '@/utils/requestFilter'
+import {GetSms} from '@/api/login'
 import { stripscript,validateEmail,validatePassWord,validateCode} from '@/utils/validate'
 export default {
     name:'login',
@@ -128,10 +128,17 @@ export default {
     watch:{},
     props:{},
     methods:{
+      getSms(){
+        console.log(this.userForm.username,112)
+        let data = {
+          username:this.userForm.username
+        }
+         GetSms(data);
+         //获取开发环境的变量名
+         console.log(process.env.VUE_APP_TITLE)
+      },
       //登录
       submitForm(formName) {
-        
-
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.userForm)
