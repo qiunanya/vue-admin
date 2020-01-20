@@ -2,8 +2,8 @@ import service from '@/utils/requestFilter'
 
 /**获取验证码 */
 export function GetSms(val){
-    console.log(111,val)
-   service.request({
+  //返回响应数据
+   return service.request({
        method:"post",
        url:"/getSms/",
        data:val

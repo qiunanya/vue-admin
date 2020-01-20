@@ -10,22 +10,22 @@
         <!-- 登录表单 -->
         <el-form :model="userForm" status-icon :rules="rules" size="medium" ref="userForm" class="login-Form">
           <el-form-item prop="username" class="item-form">
-            <label>邮箱</label>
-            <el-input type="text" v-model="userForm.username" autocomplete="off"></el-input>
+            <label for="username">邮箱</label>
+            <el-input id="username" type="text" v-model="userForm.username" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item prop="password" class="item-form">
-            <label>密码</label>
-            <el-input type="password" v-model="userForm.password" autocomplete="off" minlength="6" maxlength="20"></el-input>
+            <label for="password">密码</label>
+            <el-input id="password" type="password" v-model="userForm.password" autocomplete="off" minlength="6" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item prop="pwds" class="item-form" v-if="condition">
-            <label>确认密码</label>
-            <el-input type="password" v-model="userForm.pwds" autocomplete="off" minlength="6" maxlength="20"></el-input>
+            <label for="pwds">确认密码</label>
+            <el-input id="pwds" type="password" v-model="userForm.pwds" autocomplete="off" minlength="6" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item prop="code" class="item-form">
-            <label>验证码</label>
+            <label for="code">验证码</label>
             <el-row :gutter="15">
               <el-col :span="15">
-                <el-input type="text" v-model="userForm.code"></el-input>
+                <el-input id="code" type="text" v-model="userForm.code"></el-input>
               </el-col>
               <el-col :span="9">
                 <el-button type="success" class="block" @click="getSms">获取验证码</el-button>
@@ -33,7 +33,9 @@
             </el-row>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('userForm')" class="submit-btn top-19">提交</el-button>
+            <el-button :disabled="loginBtnStatus" type="primary" @click="submitForm('userForm')" class="submit-btn top-19">
+              {{condition?"提交":"登录"}}
+            </el-button>
           </el-form-item>
         </el-form>
 
@@ -121,7 +123,8 @@ export default {
           code: [
             { validator: checkCode, trigger: 'blur' }
           ]
-        }
+        },
+        loginBtnStatus:true
            
         }
     },
@@ -131,9 +134,37 @@ export default {
       getSms(){
         console.log(this.userForm.username,112)
         let data = {
-          username:this.userForm.username
+          username:this.userForm.username,
+          module:'login'//自定义标识
         }
-         GetSms(data);
+        //判断邮箱和密码是否为空
+        if (this.userForm.username=='') {
+           this.$message.error('登录邮箱不能为空');
+           return false;
+        } 
+        if (this.userForm.password=='') {
+           this.$message.error('密码不能为空');
+           return false;
+        }
+
+        if (!validateEmail(this.userForm.username)) {
+           this.$message.error('邮箱格式错误');
+           return false;
+        }
+         if (!validatePassWord(this.userForm.password)) {
+           this.$message.error('密码为6-20位的数字+字母');
+           return false;
+        }
+           
+           GetSms(data).then(res=>{
+              console.log(res,123)
+              if (res.data.resCode==0) {
+                this.$message.success(res.data.message);
+              }
+           }).catch(err=>{
+             this.$message.error(err);
+           });
+        
          //获取开发环境的变量名
          console.log(process.env.VUE_APP_TITLE)
       },

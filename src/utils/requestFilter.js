@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Message } from 'element-ui';
 /**拦截器 */
 let token = '1234sdhfshdifhsihf.ddhfhdohkd';
 //console.log(process.env.NODE_ENV)
@@ -27,7 +28,14 @@ service.interceptors.request.use(function (config) {
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    return response;
+    let data = response.data;
+    if (data.resCode !==0) {//接口异常处理
+     // Message.error(data.message);
+      return Promise.reject(data);//返回异常情况到调用方法处
+    }else{
+      return response;
+    }
+   
   }, function (error) {
     // 对响应错误做点什么
     return Promise.reject(error);
