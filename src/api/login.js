@@ -15,3 +15,10 @@ export function GetSms(val){
 /**登录 */
 
 /**注册 */
+export function Register(val){
+    return service.register({
+      method:"post",
+      url:"/register/",
+      data:val
+    });
+}

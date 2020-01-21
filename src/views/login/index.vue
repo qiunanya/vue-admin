@@ -28,7 +28,7 @@
                 <el-input id="code" type="text" v-model="userForm.code"></el-input>
               </el-col>
               <el-col :span="9">
-                <el-button type="success" class="block" @click="getSms">获取验证码</el-button>
+                <el-button type="success" class="block" @click="getSms" :disabled="codeBtn.codeBtnStatus">{{codeBtn.codeBtnText}}</el-button>
               </el-col>
             </el-row>
           </el-form-item>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {GetSms} from '@/api/login'
+import {GetSms,Register} from '@/api/login'
 import { stripscript,validateEmail,validatePassWord,validateCode} from '@/utils/validate'
 export default {
     name:'login',
@@ -124,7 +124,12 @@ export default {
             { validator: checkCode, trigger: 'blur' }
           ]
         },
-        loginBtnStatus:true
+        loginBtnStatus:true,
+        codeBtn:{
+          codeBtnStatus:false,
+          codeBtnText:'获取验证码'
+        },
+        timer:null
            
         }
     },
@@ -135,7 +140,7 @@ export default {
         console.log(this.userForm.username,112)
         let data = {
           username:this.userForm.username,
-          module:'login'//自定义标识
+          module:this.condition?'register':'login'//自定义标识
         }
         //判断邮箱和密码是否为空
         if (this.userForm.username=='') {
@@ -155,24 +160,69 @@ export default {
            this.$message.error('密码为6-20位的数字+字母');
            return false;
         }
+
+           //发送验证码后禁用获取验证码按钮
+           this.codeBtn.codeBtnStatus = true;
            
            GetSms(data).then(res=>{
-              console.log(res,123)
+              //console.log(res,123)
               if (res.data.resCode==0) {
                 this.$message.success(res.data.message);
+                this.loginBtnStatus = false;
+                this.countDown(60);
               }
            }).catch(err=>{
+             this.codeBtn.codeBtnStatus = false;
+             this.codeBtn.codeBtnText ='重新获取';
              this.$message.error(err);
            });
         
          //获取开发环境的变量名
          console.log(process.env.VUE_APP_TITLE)
       },
+      //倒计时
+      countDown(val){
+         //setTiemOut 执行一次
+         // setInterval 不断执行，需要条件才会停止
+          let tim = val;
+          this.timer = setInterval(()=>{
+          console.log('setInterval',val)
+             tim--;
+             if(tim===0){
+                 clearInterval(this.timer);
+                 this.codeBtn.codeBtnStatus = false;
+                 this.codeBtn.codeBtnText ='重新获取';
+             }else{
+                 this.codeBtn.codeBtnText = `倒计时${tim}秒`;
+             }
+
+          },1000)
+        
+      },
       //登录
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(this.userForm)
+            // 注册
+            if(this.condition){
+                let rData = {
+                  username:this.userForm.username,
+                  password:this.userForm.password,
+                  code:this.userForm.code,
+                  module:'register'
+                }
+                Register(rData).then(res=>{
+                  if(res.data.resCode==0){
+                     this.$message.success(res.data.message);
+                  }
+                }).catch(err=>{
+
+                });
+            }else{ //登录
+
+            }
+
             alert('submit!');
           } else {
             console.log('error submit!!');
