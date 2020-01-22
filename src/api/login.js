@@ -13,10 +13,16 @@ export function GetSms(val){
 /**获取用户角色 */
 
 /**登录 */
-
+export function Login(val){
+    return service.request({
+      method:"post",
+      url:"/login/",
+      data:val
+    });
+}
 /**注册 */
 export function Register(val){
-    return service.register({
+    return service.request({
       method:"post",
       url:"/register/",
       data:val

@@ -8,7 +8,7 @@
         </ul>
 
         <!-- 登录表单 -->
-        <el-form :model="userForm" status-icon :rules="rules" size="medium" ref="userForm" class="login-Form">
+        <el-form :model="userForm" status-icon :validate-on-rule-change="false" :rules="rules" size="medium" ref="userForm" class="login-Form">
           <el-form-item prop="username" class="item-form">
             <label for="username">邮箱</label>
             <el-input id="username" type="text" v-model="userForm.username" autocomplete="off"></el-input>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import {GetSms,Register} from '@/api/login'
+import {GetSms,Register,Login} from '@/api/login'
 import { stripscript,validateEmail,validatePassWord,validateCode} from '@/utils/validate'
 export default {
     name:'login',
@@ -87,8 +87,8 @@ export default {
 
        //验证码校验
        var checkCode = (rule, value, callback) => {
-         this.userForm.code = stripscript(value);
-         value = this.userForm.code;
+        //  this.userForm.code = stripscript(value);
+        //  value = this.userForm.code;
         if (value=='') {
           callback(new Error('请输入验证码！'));
         }else if (!validateCode(value)) {
@@ -137,7 +137,7 @@ export default {
     props:{},
     methods:{
       getSms(){
-        console.log(this.userForm.username,112)
+        
         let data = {
           username:this.userForm.username,
           module:this.condition?'register':'login'//自定义标识
@@ -182,6 +182,11 @@ export default {
       },
       //倒计时
       countDown(val){
+          //判断定时器是否存在
+          if(this.timer){
+            clearInterval(this.timer);
+          }
+          this.codeBtn.codeBtnText ='发送中';
          //setTiemOut 执行一次
          // setInterval 不断执行，需要条件才会停止
           let tim = val;
@@ -193,37 +198,55 @@ export default {
                  this.codeBtn.codeBtnStatus = false;
                  this.codeBtn.codeBtnText ='重新获取';
              }else{
+                 this.codeBtn.codeBtnStatus = true;
                  this.codeBtn.codeBtnText = `倒计时${tim}秒`;
              }
 
           },1000)
-        
       },
-      //登录
+      /*清除倒计时*/
+      clearCountDown(){
+         this.codeBtn.codeBtnStatus = false;
+         this.codeBtn.codeBtnText ='获取验证码';
+         //清除倒计时
+         clearInterval(this.timer);
+
+      },
+      //注册登录
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.userForm)
-            // 注册
-            if(this.condition){
-                let rData = {
+            let rData = {
                   username:this.userForm.username,
                   password:this.userForm.password,
                   code:this.userForm.code,
-                  module:'register'
+                  module:this.condition?'register':'login'
                 }
+            // 注册
+            if(this.condition){
                 Register(rData).then(res=>{
                   if(res.data.resCode==0){
                      this.$message.success(res.data.message);
+                     this.toggleMenu(this.menuTab[0],0);//注册成功后切换到登录
                   }
                 }).catch(err=>{
-
+                    this.$message.error(err);
                 });
+                 this.clearCountDown();
             }else{ //登录
+                console.log('login')
+                 Login(rData).then(res=>{
+                    if(res.data.resCode==0){
+                     this.$message.success(res.data.message);
+                     //登录之后操作
+                    
 
+                  }
+                 }).catch(err=>{
+                    this.$message.error(err);
+                 });
+                 this.clearCountDown();
             }
-
-            alert('submit!');
           } else {
             console.log('error submit!!');
             return false;
@@ -234,6 +257,7 @@ export default {
         this.$refs['userForm'].resetFields();
       },
       toggleMenu(item,index){
+         console.log(this.condition,item,index)
          this.menuTab.forEach(el=>{
            el.isActive = false;
          })
@@ -242,10 +266,12 @@ export default {
            this.resetForm();
            this.userForm = {};
            this.condition = false;
+           this.clearCountDown();
          } else {
            this.resetForm();
            this.userForm = {};
            this.condition = true;
+           this.clearCountDown();
          }
         
       }
