@@ -105,8 +105,8 @@ export default {
               {id:2,title:'注册', isActive:false},
             ],
              userForm: {
-              username: '',
-              password: '',
+              username: '1766226354@qq.com',
+              password: '123456a',
               pwds:'',
               code: ''
             },
@@ -239,7 +239,12 @@ export default {
                     if(res.data.resCode==0){
                      this.$message.success(res.data.message);
                      //登录之后操作
-                    
+                    this.$router.push({
+                      path:'/console',
+                      query:{
+                        title:'控制台'
+                      }
+                      })
 
                   }
                  }).catch(err=>{
@@ -253,26 +258,25 @@ export default {
           }
         });
       },
+      /**清空表单内容 */
        resetForm() {
         this.$refs['userForm'].resetFields();
       },
       toggleMenu(item,index){
-         console.log(this.condition,item,index)
+         //console.log(this.condition,item,index)
          this.menuTab.forEach(el=>{
            el.isActive = false;
          })
           item.isActive = true;
          if (index==0) {
-           this.resetForm();
            this.userForm = {};
            this.condition = false;
-           this.clearCountDown();
          } else {
-           this.resetForm();
            this.userForm = {};
            this.condition = true;
-           this.clearCountDown();
          }
+         this.resetForm();
+         this.clearCountDown();
         
       }
     },

@@ -10,15 +10,15 @@ const BASEURL = process.env.NODE_ENV === 'production' ? '' : 'devApi';
 const service = axios.create({
     baseURL: BASEURL,//devApi ==http://www.web-jshtml.cn/productApi(vue.config.js)
     timeout: 5000,//请求超时
-    headers: {
-      'X-Custom-Header': 'foobar',
-      'auth_token':token
-    }
+    
 });
 
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    // 在header中存放令牌token，或者userid等
+    config.headers.token = token;
+    config.headers.userId = '4444isfisgifdgdisfdsg';
     return config;
   }, function (error) {
     // 对请求错误做些什么
