@@ -29,7 +29,8 @@ const routes = [{
         name: "console",
         redirect:"/console/index",//当跳转console，会重定向控制台index页面，
         meta:{
-            name:"控制台"
+            name:"控制台",
+            icon:"console"
         },
         component: Layout,
             children:[
@@ -48,7 +49,8 @@ const routes = [{
         path: "/infoManage",
         name: "Info-Manage",
         meta:{
-            name:"信息管理"
+            name:"信息管理",
+            icon:"info"
         },
         component: Layout,
             children:[
@@ -76,7 +78,8 @@ const routes = [{
         path: "/userManage",
         name: "UserManage",
         meta:{
-            name:"用户管理"
+            name:"用户管理",
+            icon:"user"
         },
         component: Layout,
             children:[

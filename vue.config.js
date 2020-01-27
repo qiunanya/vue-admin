@@ -17,10 +17,10 @@ module.exports = {
             .loader("svg-sprite-loader")
             .options({
                 symbolId: "icon-[name]",
-                include: ["./src/icons"]
+                include: ["./src/assets/icons"]
             });
 
-            //配置less
+            //配置全局less
              const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
                    types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)));
             

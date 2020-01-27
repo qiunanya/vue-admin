@@ -1,6 +1,7 @@
 <template>
     <div id="header-wrapper">
         <h3 style="color:red;">头部模块</h3>
+        <!-- <svg-icon iconClass='xinxi' className='xinxi'/> -->
     </div>
 </template>
 <script>

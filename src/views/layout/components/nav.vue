@@ -7,7 +7,8 @@
             <template v-for="(item,index) in menuList">
                 <el-submenu v-if="!item.hidden" :key="item.id" :index="index + ''">
                     <template slot="title">
-                        <i class="el-icon-location"></i>
+                        <!-- <i class="el-icon-location"></i> -->
+                        <svg-icon :iconClass='item.meta.icon' :className='item.meta.icon'/>
                         <span slot="title">{{item.meta.name}}</span>
                     </template>
                     <el-menu-item v-for="(subItem, index1) in item.children" :key="subItem.id" :index="subItem.path">{{subItem.meta.name}}</el-menu-item>
