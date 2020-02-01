@@ -17,7 +17,23 @@ export default {
     right: 0;
     border: 30px solid #f7f7f7;
     border-bottom: none;
-    //background: #ffffff;
+    padding: 30px 30px 0 30px;
+    background: #ffffff;
+    -webkit-transform: all .3s ease 0s;
+    -o-transform: all .3s ease 0s;
+    -moz-transform: all .3s ease 0s;
+    -ms-transform: all .3s ease 0s;
+    transform: all .3s ease 0s;
     //box-sizing: border;
+}
+.open{
+   #main-wrapper{
+     left: @nva-menu-w;
+   }
+}
+.close{
+    #main-wrapper{
+     left:  @nav-menu-min;
+   }
 }
 </style>

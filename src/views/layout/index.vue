@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="layout" :class="menuState? 'close':'open'">
         <layoutHeader/>
         <layoutMain/>
         <layoutNav/>
@@ -17,7 +17,17 @@ export default {
         layoutHeader,
         layoutMain,
         layoutNav
-    }
+    },
+    data() {
+        return {
+            
+        }
+    },
+    computed: {
+        menuState(){
+            return this.$store.state.isCollapse;
+        }
+    },
     
 }
 </script>

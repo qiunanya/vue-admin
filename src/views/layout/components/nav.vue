@@ -1,5 +1,8 @@
 <template>
     <div id="nav-wrapper">
+        <div class="logo">
+            <img src="../../../assets/icon/img/logo.png" alt="" srcset="">
+        </div>
        <el-menu default-active="1-4-1" class="el-menu-vertical-demo" 
                 background-color="transparent" text-color="#ffffff"
                  @open="handleOpen" @close="handleClose" 
@@ -35,9 +38,14 @@ export default {
     name:'navMenu',
     data() {
         return {
-            isCollapse: false,
+           // isCollapse: false,
             menuList:[]
         }
+    },
+    created() {
+        // 改变state值
+        //this.$store.commit('SET_ISCOLLAPSE',true)
+        console.log(this.$store.state.isCollapse,this.$store.getters.isCollapse,1111)
     },
     methods: {
          handleOpen(key, keyPath) {
@@ -50,7 +58,13 @@ export default {
     mounted(){
         this.menuList = this.$router.options.routes;
         console.log(this.menuList,123)
-    }
+    },
+    computed: {
+        isCollapse(){
+            return this.$store.state.isCollapse;
+        }
+        
+    },
 }
 </script>
 <style lang="less" scoped>
@@ -61,5 +75,36 @@ export default {
     width: @nva-menu-w;
     height: 100vh;
     background: #344a5f;
+    -webkit-transform: all .3s ease 0s;
+    -o-transform: all .3s ease 0s;
+    -moz-transform: all .3s ease 0s;
+    -ms-transform: all .3s ease 0s;
+    transform: all .3s ease 0s;
+    .logo{
+        img{
+            margin: 22px auto 19px;
+            width: 60px;
+            height: 60px;
+        }
+    }
+    .el-menu-vertical-demo{
+        width: @nva-menu-w;
+    }
+}
+.open{
+    #nav-wrapper{
+       width: @nva-menu-w;
+        .el-menu-vertical-demo{
+        width: @nva-menu-w;
+       } 
+    }
+}
+.close{
+    #nav-wrapper{
+       width: @nav-menu-min;
+        .el-menu-vertical-demo{
+        width: @nav-menu-min;
+       } 
+    }
 }
 </style>
