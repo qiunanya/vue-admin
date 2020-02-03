@@ -14,3 +14,23 @@ li.el-submenu .is-active .is-opened.el-submenu__title{
 .el-submenu.is-active .el-submenu__title{
     background: radial-gradient(rgba(245, 108, 108, 0.2), transparent) !important;
 }
+
+.close{
+    #nav-wrapper{
+        .el-submenu.is-opened{
+           .el-submenu__title{
+               background-color:@main-color !important;
+           }            
+        }
+    }
+}
+
+.el-menu--vertical{
+    .el-menu{
+        background-color:@main-color !important;
+    }
+    .el-menu-item:hover{
+        //color: skyblue;
+        background-color:skyblue !important;
+    }
+}

@@ -14,7 +14,9 @@
                         <svg-icon :iconClass='item.meta.icon' :className='item.meta.icon'/>
                         <span slot="title">{{item.meta.name}}</span>
                     </template>
-                    <el-menu-item v-for="(subItem, index1) in item.children" :key="subItem.id" :index="subItem.path">{{subItem.meta.name}}</el-menu-item>
+                    <el-menu-item v-for="(subItem, index1) in item.children" :key="subItem.id" :index="subItem.path">
+                        {{subItem.meta.name}}
+                    </el-menu-item>
                 </el-submenu>
             </template>     
             
@@ -45,7 +47,7 @@ export default {
     created() {
         // 改变state值
         //this.$store.commit('SET_ISCOLLAPSE',true)
-        console.log(this.$store.state.isCollapse,this.$store.getters.isCollapse,1111)
+        console.log(this.$store.state.app.isCollapse,this.$store.getters.isCollapse,1111)
     },
     methods: {
          handleOpen(key, keyPath) {
@@ -57,11 +59,11 @@ export default {
     },
     mounted(){
         this.menuList = this.$router.options.routes;
-        console.log(this.menuList,123)
+        console.log(this.menuList,this.$store.state.login.qiuny,this.$store.getters.qiu,123)
     },
     computed: {
         isCollapse(){
-            return this.$store.state.isCollapse;
+            return this.$store.state.app.isCollapse;
         }
         
     },
@@ -85,7 +87,12 @@ export default {
             margin: 22px auto 19px;
             width: 60px;
             height: 60px;
-        }
+            -webkit-transform: all .3s ease 0s;
+            -o-transform: all .3s ease 0s;
+            -moz-transform: all .3s ease 0s;
+            -ms-transform: all .3s ease 0s;
+            transform: all .3s ease 0s;
+                }
     }
     .el-menu-vertical-demo{
         width: @nva-menu-w;
@@ -104,7 +111,13 @@ export default {
        width: @nav-menu-min;
         .el-menu-vertical-demo{
         width: @nav-menu-min;
-       } 
+       }
+       .logo{
+            img{
+                width: 60%;
+                height: 60%;
+            }
+    }
     }
 }
 </style>

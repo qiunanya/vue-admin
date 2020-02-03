@@ -26,6 +26,8 @@ export default {
         //改变左侧菜单显示状态
         changeMenuState(){
             this.$store.commit('SET_COLLAPSE');
+            //调用store中的actions的setState方法
+            this.$store.dispatch('setState',{name:'李斯',age:1422})
         }
     },
 }
