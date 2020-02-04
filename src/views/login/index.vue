@@ -235,21 +235,37 @@ export default {
                  this.clearCountDown();
             }else{ //登录
                 console.log('login')
-                 Login(rData).then(res=>{
-                    if(res.data.resCode==0){
-                     this.$message.success(res.data.message);
-                     //登录之后操作
-                    this.$router.push({
-                      path:'/console',
-                      query:{
-                        title:'控制台'
-                      }
-                      })
+                //  Login(rData).then(res=>{
+                //     if(res.data.resCode==0){
+                //      this.$message.success(res.data.message);
+                //      //登录之后操作
+                //     this.$router.push({
+                //       path:'/console',
+                //       query:{
+                //         title:'控制台'
+                //       }
+                //       })
 
-                  }
-                 }).catch(err=>{
-                    this.$message.error(err);
-                 });
+                //   }
+                //  }).catch(err=>{
+                //     this.$message.error(err);
+                //  });
+                 this.$store.dispatch('login/login', rData).then(res => {
+                   console.log(res,13)
+                    if(res.data.resCode==0){
+                        this.$message.success(res.data.message);
+                        //登录之后操作
+                        this.$router.push({
+                          path:'/console',
+                          query:{
+                            title:'控制台'
+                          }
+                          })
+                  }   
+                  }).catch(error => {
+                      this.$message.error(error.message);
+                      console.log(error,12)
+                  });
                  this.clearCountDown();
             }
           } else {

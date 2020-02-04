@@ -47,7 +47,7 @@ export default {
     created() {
         // 改变state值
         //this.$store.commit('SET_ISCOLLAPSE',true)
-        console.log(this.$store.state.app.isCollapse,this.$store.getters.isCollapse,1111)
+        console.log(this.$store.state.app.isCollapse,this.$store.getters['app/isCollapse'],1111)
     },
     methods: {
          handleOpen(key, keyPath) {
@@ -59,7 +59,7 @@ export default {
     },
     mounted(){
         this.menuList = this.$router.options.routes;
-        console.log(this.menuList,this.$store.state.login.qiuny,this.$store.getters.qiu,123)
+        //console.log(this.menuList,this.$store.state.login.qiuny,this.$store.getters.qiu,123)
     },
     computed: {
         isCollapse(){
