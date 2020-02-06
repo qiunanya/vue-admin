@@ -250,7 +250,7 @@ export default {
                 //  }).catch(err=>{
                 //     this.$message.error(err);
                 //  });
-                 this.$store.dispatch('login/login', rData).then(res => {
+                 this.$store.dispatch('login/userLogin', rData).then(res => {
                    console.log(res,13)
                     if(res.data.resCode==0){
                         this.$message.success(res.data.message);

@@ -2,6 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
+/*设置路由守卫后，this.$router.push(会报错Uncaught (in promise)*/
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+};
 
 //引用布局组件,当文件夹下存在index.vue时可以不用写，默认加载的
 import Layout from "@/views/layout"
@@ -26,7 +31,7 @@ const routes = [{
     },
     {
         path: "/console",
-        name: "console",
+        name: "Console",
         redirect:"/console/index",//当跳转console，会重定向控制台index页面，
         meta:{
             name:"控制台",

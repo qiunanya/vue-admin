@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui';
 /**拦截器 */
-let token = '1234sdhfshdifhsihf.ddhfhdohkd';
+//let token = '1234sdhfshdifhsihf.ddhfhdohkd';
 //console.log(process.env.NODE_ENV)
 console.log(process.env.VUE_APP_TITLE)
 //创建requet，赋给service
@@ -17,8 +17,8 @@ const service = axios.create({
 service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 在header中存放令牌token，或者userid等
-    config.headers.token = token;
-    config.headers.userId = '4444isfisgifdgdisfdsg';
+    // config.headers.token = token;
+    // config.headers.userId = '4444isfisgifdgdisfdsg';
     return config;
   }, function (error) {
     // 对请求错误做些什么
