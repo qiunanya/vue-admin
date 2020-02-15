@@ -20,6 +20,16 @@ export function Login(val){
       data:val
     });
 }
+
+/**退出 */
+export function Logout(val){
+  return service.request({
+    method:"post",
+    url:"/logout/",
+    data:val
+  });
+}
+
 /**注册 */
 export function Register(val){
     return service.request({

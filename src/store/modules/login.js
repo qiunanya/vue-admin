@@ -1,8 +1,8 @@
-import {GetSms,Register,Login} from '@/api/login';
-import {getToken,setToken,setUserName} from '@/utils/app.tool';
+import {GetSms,Register,Login,Logout} from '@/api/login';
+import {getToken,setToken,setUserName,getUserName,removeToken,removeUserName} from '@/utils/app.tool';
 const state = {
     isCollapse:JSON.parse(window.localStorage.getItem('isCollapse')) || false,
-    user_name:'',
+    user_name:getUserName() || '',
     access_token:'',
 }
 const getters ={
@@ -44,7 +44,30 @@ const actions ={
                 reject(error)
             })
         })
+    },
+    logout(content, requestData){
+        return new Promise((resolve,reject)=>{
+               console.log('logout-success',requestData)
+               removeToken();
+               removeUserName(); 
+               content.commit('set_userName','');
+               content.commit('set_accessToken','');
+               resolve();
+           /* 
+           // 正式开发 退出接口
+           Logout(requestData).then(response=>{
+               removeToken();
+               removeUserName(); 
+               content.commit('set_userName','');
+               content.commit('set_accessToken','');
+               resolve(response) 
+            }).catch(error=>{
+               reject(error)
+            })*/
+        })
     }
+
+
 }
 
 export default {

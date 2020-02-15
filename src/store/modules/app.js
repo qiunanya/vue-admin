@@ -21,7 +21,7 @@ const actions ={
      //异步：请求接口后，再去做别的事情，该函数的调用方法和mutations类似
         // content包括上面的mutations、state、getter等，打印可了解，data是调用时传的参数
         setState(content,data){
-            console.log(content,data,1234)
+            //console.log(content,data,1234)
         },
         
 }

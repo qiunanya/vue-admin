@@ -7,9 +7,9 @@
         <div class="pull-right">
           <div class="user-info pull-left">
               <img class="avatar" src="../../../assets/icon/img/u.png" alt="" srcset="">
-              <div class="user-name">管理员</div>
+              <div class="user-name">{{username}}</div>
           </div>
-          <div class="menu-icon pull-left">
+          <div class="menu-icon pull-left" @click="logout">
               <svg-icon iconClass='back' className='back'/> 
           </div> 
         </div>
@@ -19,16 +19,46 @@
 export default {
     data() {
         return {
-            
+            username:''
         }
     },
     methods: {
+        // logout
+        logout(){
+            this.$confirm('确定要退出系统吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                    this.$store.dispatch('login/logout', {name:'logout'}).then(res => {
+                        this.$message({
+                            type: 'success',
+                            message: '退出成功!'
+                        });
+                        this.$router.push({
+                                path:'/login'
+                                })
+                        }).catch(error => {
+                            this.$message.error(error.message);
+                            console.log(error,12)
+                        });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });          
+                });
+        },
         //改变左侧菜单显示状态
         changeMenuState(){
             this.$store.commit('app/SET_COLLAPSE');
             //调用store中的actions的setState方法
             this.$store.dispatch('app/setState',{name:'李斯',age:1422})
         }
+    },
+    mounted() {
+        this.username = this.$store.state.login.user_name;
+        console.log(this.$store.state.login.user_name,'username')
     },
 }
 </script>
