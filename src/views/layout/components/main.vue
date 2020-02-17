@@ -15,9 +15,9 @@ export default {
     top: 75px;
     bottom: 0;
     right: 0;
-    border: 30px solid #f7f7f7;
+    border: 15px solid #f7f7f7;
     border-bottom: none;
-    padding: 30px 30px 0 30px;
+    padding: 15px 15px 0 15px;
     background: #ffffff;
     -webkit-transform: all .3s ease 0s;
     -o-transform: all .3s ease 0s;
