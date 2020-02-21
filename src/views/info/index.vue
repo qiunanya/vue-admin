@@ -97,6 +97,7 @@
     </div>    
 </template>
 <script>
+import {GetCategory} from '@/api/news'
 import AddDialogInfo from './dialog/info'
 export default {
     name:'InfoPage',
@@ -141,7 +142,6 @@ export default {
         }
     },
     created() {
-        
     },
     methods: {
         change_dialog(val){
@@ -170,7 +170,11 @@ export default {
         }
     },
     mounted() {
-        
+         GetCategory({}).then(res=>{
+          console.log(res,6666)
+        }).catch(err=>{
+           this.$message.error(err.message);
+        });
     },
 }
 </script>

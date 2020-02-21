@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import {getToken,setToken,setUserName,getUserName,removeToken,removeUserName} from '@/utils/app.tool';
 import { Message } from 'element-ui';
 /**拦截器 */
 //let token = '1234sdhfshdifhsihf.ddhfhdohkd';
@@ -17,8 +18,8 @@ const service = axios.create({
 service.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 在header中存放令牌token，或者userid等
-    // config.headers.token = token;
-    // config.headers.userId = '4444isfisgifdgdisfdsg';
+    config.headers['Tokey'] = getToken()
+    config.headers['UserName'] = getUserName()
     return config;
   }, function (error) {
     // 对请求错误做些什么
@@ -33,6 +34,7 @@ service.interceptors.response.use(function (response) {
      // Message.error(data.message);
       return Promise.reject(data);//返回异常情况到调用方法处
     }else{
+      //console.log(response.data,99999)
       return response;
     }
    
