@@ -75,7 +75,7 @@
         </el-table>
         <el-row style="padding-top:30px;">
             <el-col :span="12">
-                <el-button size="medium ">批量删除</el-button>
+                <el-button size="medium " @click="batch_items">批量删除</el-button>
             </el-col>
             <el-col :span="12">
                 <el-pagination
@@ -122,12 +122,14 @@ export default {
             ],
             tableData: [
                 {
+                id:'1234567',    
                 title:'新浪文本',
                 category:'国内信息',
                 date: '2016-05-02 02:21:25',
                 user: '王小虎'
                 },
                 {
+                id:'87777676',
                 title:'新浪文本',
                 category:'国内信息',
                 date: '2016-05-02 02:21:25',
@@ -161,6 +163,29 @@ export default {
         },
         handleDelete(index, row) {
             console.log(index, row);
+            this.confirm({
+                content:'确认删除当前信息，删除后将无法恢复？',
+                tips:'警告',
+                type:'error',
+                meth:this.deleteItme,
+                id:row.id,
+            });
+        },
+        batch_items(){
+            this.confirm({
+                content:'确定批量删除信息吗?',
+                tips:'提示',
+                meth:this.deleteItme,
+                id:'123456',
+            });
+        },
+        // 删除接口
+        deleteItme(value){
+            this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            console.log(77777,value)
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
